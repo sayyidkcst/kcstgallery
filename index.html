@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-<title>KCST Gallery | GitHub Pages Ready | Google Sign-In</title>
+<title>KCST Gallery | Fixed Google Sign-In</title>
 <!-- Font Awesome 6 -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 <!-- JSZip for batch ZIP download -->
@@ -367,6 +367,17 @@ header {
 </head>
 <body>
 
+<!-- LOADING OVERLAY -->
+<div id="loadingOverlay" style="position:fixed; inset:0; background:rgba(0,0,0,0.9); display:none; justify-content:center; align-items:center; z-index:9999999; flex-direction:column; gap:15px;">
+    <div style="width:50px; height:50px; border:3px solid #333; border-top-color:#00ffd5; border-radius:50%; animation:spin 1s linear infinite;"></div>
+    <p style="color:#00ffd5;">Connecting to Google...</p>
+</div>
+<style>
+    @keyframes spin {
+        to { transform: rotate(360deg); }
+    }
+</style>
+
 <!-- LOGIN SECTION -->
 <div class="auth-screen" id="loginScreen">
     <div class="auth-box">
@@ -445,27 +456,12 @@ header {
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 import { getDatabase, ref, push, onValue, remove } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
-import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, GoogleAuthProvider, signInWithPopup, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
-// ============================================
-// UPDATED FIREBASE CONFIGURATION FOR GITHUB PAGES
-// ============================================
-// To use this with GitHub Pages, you need to:
-// 1. Go to Firebase Console → Authentication → Settings → Authorized domains
-//    Add: your-username.github.io
-// 2. Go to Google Cloud Console → APIs & Services → Credentials → OAuth 2.0 Client IDs
-//    Add to Authorized JavaScript origins: https://your-username.github.io
-//    Add to Authorized redirect URIs: https://your-username.github.io/__/auth/handler
-//
-// Replace "YOUR_GITHUB_USERNAME" with your actual GitHub username
-// For a project site: https://YOUR_GITHUB_USERNAME.github.io/REPO_NAME
-// ============================================
-
+// Firebase Configuration
 const firebaseConfig = {
   apiKey: "AIzaSyDUuMUptpyEuYL8asBbA255ZKaz0_YpCoY",
-  authDomain: "kcst-gallery.firebaseapp.com",  // ← UPDATE THIS for GitHub Pages!
-  // For GitHub Pages user site, use: "your-username.github.io"
-  // For GitHub Pages project site, use: "your-username.github.io/your-repo-name"
+  authDomain: "kcst-gallery.firebaseapp.com",
   databaseURL: "https://kcst-gallery-default-rtdb.firebaseio.com",
   projectId: "kcst-gallery",
   storageBucket: "kcst-gallery.firebasestorage.app",
@@ -473,19 +469,16 @@ const firebaseConfig = {
   appId: "1:150131028441:web:438f0c28e31f48c2d1a9c8"
 };
 
-// NOTE: The authDomain above is set to the default Firebase domain.
-// TO USE WITH GITHUB PAGES, CHANGE IT TO:
-// authDomain: "YOUR_USERNAME.github.io",
-// 
-// Then add this domain to:
-// 1. Firebase Console → Authentication → Authorized domains
-// 2. Google Cloud Console → OAuth 2.0 Client IDs → Authorized JavaScript origins
-// 3. Google Cloud Console → OAuth 2.0 Client IDs → Authorized redirect URIs (add: https://YOUR_USERNAME.github.io/__/auth/handler)
-
+// Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const database = getDatabase(app);
 const auth = getAuth(app);
 const googleProvider = new GoogleAuthProvider();
+
+// Configure Google Provider
+googleProvider.setCustomParameters({
+    prompt: 'select_account'
+});
 
 // DOM elements
 const galleryDiv = document.getElementById("gallery");
@@ -500,6 +493,7 @@ const userEmailDisplay = document.getElementById("userEmailDisplay");
 const userInfo = document.getElementById("userInfo");
 const userAvatar = document.getElementById("userAvatar");
 const userName = document.getElementById("userName");
+const loadingOverlay = document.getElementById("loadingOverlay");
 
 // FORCE selection bar to always be visible
 selectionBar.style.display = "flex";
@@ -787,24 +781,41 @@ document.getElementById("searchInput").addEventListener("input", function() {
     }
 });
 
-// AUTH FUNCTIONS
+// GOOGLE SIGN-IN FIXED
 async function googleSignIn() {
+    loadingOverlay.style.display = "flex";
     try {
         const result = await signInWithPopup(auth, googleProvider);
         console.log("Google sign-in success:", result.user);
+        // Auth state listener will handle the UI update
     } catch(error) {
         console.error("Google sign-in error:", error);
-        document.getElementById("loginError").innerHTML = error.message;
+        let errorMsg = error.message;
+        if (error.code === 'auth/popup-blocked') {
+            errorMsg = "Popup was blocked. Please allow popups for this site.";
+        } else if (error.code === 'auth/popup-closed-by-user') {
+            errorMsg = "Sign-in cancelled. Please try again.";
+        }
+        document.getElementById("loginError").innerHTML = errorMsg;
+    } finally {
+        loadingOverlay.style.display = "none";
     }
 }
 
 async function googleSignUp() {
+    loadingOverlay.style.display = "flex";
     try {
         const result = await signInWithPopup(auth, googleProvider);
         console.log("Google sign-up success:", result.user);
     } catch(error) {
         console.error("Google sign-up error:", error);
-        document.getElementById("registerError").innerHTML = error.message;
+        let errorMsg = error.message;
+        if (error.code === 'auth/popup-blocked') {
+            errorMsg = "Popup was blocked. Please allow popups for this site.";
+        }
+        document.getElementById("registerError").innerHTML = errorMsg;
+    } finally {
+        loadingOverlay.style.display = "none";
     }
 }
 
@@ -869,7 +880,7 @@ document.getElementById("downloadEachBtn").onclick = () => downloadEach();
 document.getElementById("deleteSelectedBtn").onclick = () => deleteSelected();
 document.getElementById("uploadTriggerBtn").onclick = () => fileInput.click();
 
-// Auth state listener
+// Auth state listener - This handles showing/hiding UI after login
 onAuthStateChanged(auth, (user) => {
     if (user) {
         currentUserId = user.uid;
@@ -884,7 +895,7 @@ onAuthStateChanged(auth, (user) => {
         document.getElementById("loginScreen").style.display = "none";
         document.getElementById("registerScreen").style.display = "none";
         loadGallery();
-        console.log(`Logged in: ${user.email} - Private gallery ready`);
+        console.log(`✅ Logged in: ${user.email}`);
     } else {
         currentUserId = null;
         userEmailDisplay.textContent = "Private Gallery";
@@ -931,18 +942,8 @@ const keepVisible = setInterval(() => {
 
 window.addEventListener('beforeunload', () => clearInterval(keepVisible));
 
-console.log("✅ KCST Gallery — Ready for GitHub Pages deployment");
-console.log("📋 Firebase Config Summary:");
-console.log("   API Key: AIzaSyDUuMUptpyEuYL8asBbA255ZKaz0_YpCoY");
-console.log("   Auth Domain: kcst-gallery.firebaseapp.com (Update for GitHub Pages)");
-console.log("   Project ID: kcst-gallery");
-console.log("");
-console.log("🔧 TO DEPLOY ON GITHUB PAGES:");
-console.log("   1. Change authDomain to: YOUR_USERNAME.github.io");
-console.log("   2. Add domain to Firebase Console → Authentication → Authorized domains");
-console.log("   3. Add domain to Google Cloud Console → OAuth 2.0 Client IDs");
-console.log("   4. Push this file to your GitHub repository");
-console.log("   5. Enable GitHub Pages in repository Settings");
+console.log("✅ KCST Gallery — Google Sign-In FIXED!");
+console.log("📌 If popup is blocked, allow popups for this site");
 </script>
 </body>
 </html>
