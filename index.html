@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-<title>KCST Gallery | Google Sign-In Both Sections</title>
+<title>KCST Gallery | GitHub Pages Ready | Google Sign-In</title>
 <!-- Font Awesome 6 -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 <!-- JSZip for batch ZIP download -->
@@ -447,14 +447,40 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/fireba
 import { getDatabase, ref, push, onValue, remove } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
 import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
+// ============================================
+// UPDATED FIREBASE CONFIGURATION FOR GITHUB PAGES
+// ============================================
+// To use this with GitHub Pages, you need to:
+// 1. Go to Firebase Console → Authentication → Settings → Authorized domains
+//    Add: your-username.github.io
+// 2. Go to Google Cloud Console → APIs & Services → Credentials → OAuth 2.0 Client IDs
+//    Add to Authorized JavaScript origins: https://your-username.github.io
+//    Add to Authorized redirect URIs: https://your-username.github.io/__/auth/handler
+//
+// Replace "YOUR_GITHUB_USERNAME" with your actual GitHub username
+// For a project site: https://YOUR_GITHUB_USERNAME.github.io/REPO_NAME
+// ============================================
+
 const firebaseConfig = {
   apiKey: "AIzaSyDUuMUptpyEuYL8asBbA255ZKaz0_YpCoY",
-  authDomain: "kcst-gallery.firebaseapp.com",
+  authDomain: "kcst-gallery.firebaseapp.com",  // ← UPDATE THIS for GitHub Pages!
+  // For GitHub Pages user site, use: "your-username.github.io"
+  // For GitHub Pages project site, use: "your-username.github.io/your-repo-name"
   databaseURL: "https://kcst-gallery-default-rtdb.firebaseio.com",
   projectId: "kcst-gallery",
+  storageBucket: "kcst-gallery.firebasestorage.app",
   messagingSenderId: "150131028441",
   appId: "1:150131028441:web:438f0c28e31f48c2d1a9c8"
 };
+
+// NOTE: The authDomain above is set to the default Firebase domain.
+// TO USE WITH GITHUB PAGES, CHANGE IT TO:
+// authDomain: "YOUR_USERNAME.github.io",
+// 
+// Then add this domain to:
+// 1. Firebase Console → Authentication → Authorized domains
+// 2. Google Cloud Console → OAuth 2.0 Client IDs → Authorized JavaScript origins
+// 3. Google Cloud Console → OAuth 2.0 Client IDs → Authorized redirect URIs (add: https://YOUR_USERNAME.github.io/__/auth/handler)
 
 const app = initializeApp(firebaseConfig);
 const database = getDatabase(app);
@@ -905,7 +931,18 @@ const keepVisible = setInterval(() => {
 
 window.addEventListener('beforeunload', () => clearInterval(keepVisible));
 
-console.log("✅ KCST Gallery — Google Sign-In on BOTH Login & Register sections");
+console.log("✅ KCST Gallery — Ready for GitHub Pages deployment");
+console.log("📋 Firebase Config Summary:");
+console.log("   API Key: AIzaSyDUuMUptpyEuYL8asBbA255ZKaz0_YpCoY");
+console.log("   Auth Domain: kcst-gallery.firebaseapp.com (Update for GitHub Pages)");
+console.log("   Project ID: kcst-gallery");
+console.log("");
+console.log("🔧 TO DEPLOY ON GITHUB PAGES:");
+console.log("   1. Change authDomain to: YOUR_USERNAME.github.io");
+console.log("   2. Add domain to Firebase Console → Authentication → Authorized domains");
+console.log("   3. Add domain to Google Cloud Console → OAuth 2.0 Client IDs");
+console.log("   4. Push this file to your GitHub repository");
+console.log("   5. Enable GitHub Pages in repository Settings");
 </script>
 </body>
 </html>
