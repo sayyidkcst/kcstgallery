@@ -2,8 +2,8 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-<title>KCST Gallery | Fixed Google Sign-In</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
+<title>KCST Gallery | Mobile App Experience</title>
 <!-- Font Awesome 6 -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 <!-- JSZip for batch ZIP download -->
@@ -13,71 +13,83 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+    font-family: -apple-system, 'Inter', 'Segoe UI', system-ui, Helvetica, sans-serif;
+    -webkit-tap-highlight-color: transparent;
 }
 
 body {
     background: #050505;
     color: #ededed;
     overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* Mobile app-like status bar handling */
+.status-bar-padding {
+    padding-top: constant(safe-area-inset-top);
+    padding-top: env(safe-area-inset-top);
 }
 
 /* ========= AUTH SCREENS ========= */
 .auth-screen {
     position: fixed;
     inset: 0;
-    background: rgba(0,0,0,0.96);
-    backdrop-filter: blur(12px);
+    background: rgba(0,0,0,0.98);
+    backdrop-filter: blur(20px);
     display: flex;
     justify-content: center;
     align-items: center;
     z-index: 999999;
+    padding: 20px;
 }
 .auth-box {
-    width: 400px;
-    background: #121212;
-    padding: 40px 32px;
-    border-radius: 40px;
+    width: 100%;
+    max-width: 380px;
+    background: rgba(18, 18, 18, 0.95);
+    padding: 32px 24px;
+    border-radius: 48px;
     text-align: center;
-    border: 1px solid rgba(0, 255, 213, 0.25);
-    box-shadow: 0 30px 40px rgba(0,0,0,0.6);
+    border: 1px solid rgba(0, 255, 213, 0.2);
+    box-shadow: 0 30px 50px rgba(0,0,0,0.5);
+    backdrop-filter: blur(10px);
 }
 .auth-logo {
-    width: 90px;
-    height: 90px;
-    margin: 0 auto 20px;
-    border-radius: 28px;
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 16px;
+    border-radius: 24px;
     background: linear-gradient(135deg, #00ffd5, #008cff);
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 42px;
+    font-size: 38px;
     color: #000;
 }
-.auth-box h1 { font-size: 28px; margin-bottom: 8px; letter-spacing: -0.5px; }
-.auth-box p { color: #aaa; margin-bottom: 28px; font-size: 14px; }
+.auth-box h1 { font-size: 26px; margin-bottom: 6px; letter-spacing: -0.5px; }
+.auth-box p { color: #aaa; margin-bottom: 24px; font-size: 13px; }
 .auth-box input {
     width: 100%;
-    height: 54px;
-    margin-bottom: 18px;
+    height: 52px;
+    margin-bottom: 14px;
     border: none;
     outline: none;
-    border-radius: 20px;
-    background: #1f1f1f;
+    border-radius: 28px;
+    background: #1e1e1e;
     color: white;
-    padding: 0 20px;
+    padding: 0 18px;
     font-size: 15px;
     transition: 0.2s;
 }
 .auth-box input:focus { background: #2a2a2a; }
 .auth-btn {
     width: 100%;
-    height: 54px;
+    height: 52px;
     border: none;
-    border-radius: 30px;
+    border-radius: 28px;
     background: #00ffd5;
     color: black;
-    font-weight: bold;
+    font-weight: 600;
     font-size: 16px;
     cursor: pointer;
     transition: 0.2s;
@@ -96,8 +108,8 @@ body {
 .google-btn i { font-size: 20px; color: #db4437; }
 .auth-divider {
     color: #666;
-    font-size: 12px;
-    margin: 20px 0;
+    font-size: 11px;
+    margin: 16px 0;
     position: relative;
 }
 .auth-divider::before,
@@ -111,170 +123,183 @@ body {
 }
 .auth-divider::before { left: 0; }
 .auth-divider::after { right: 0; }
-.auth-switch { margin-top: 20px; color: #888; font-size: 14px;}
+.auth-switch { margin-top: 16px; color: #888; font-size: 13px;}
 .auth-switch span { color: #00ffd5; cursor: pointer; font-weight: 600;}
-.auth-error { color: #ff6b6b; margin-top: 14px; font-size: 13px;}
+.auth-error { color: #ff6b6b; margin-top: 12px; font-size: 12px;}
 
-/* ========= HEADER ========= */
+/* ========= HEADER - Mobile Optimized ========= */
 header {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
-    height: 78px;
-    background: rgba(10, 10, 10, 0.92);
-    backdrop-filter: blur(18px);
+    height: 70px;
+    background: rgba(10, 10, 10, 0.96);
+    backdrop-filter: blur(20px);
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 0 28px;
+    padding: 0 16px;
     z-index: 1000;
-    border-bottom: 1px solid rgba(255,255,255,0.06);
+    border-bottom: 0.5px solid rgba(255,255,255,0.08);
 }
-.logo { display: flex; align-items: center; gap: 14px; }
+.logo { display: flex; align-items: center; gap: 10px; }
 .logo-icon {
-    width: 48px; height: 48px;
-    border-radius: 18px;
+    width: 42px; height: 42px;
+    border-radius: 14px;
     background: linear-gradient(135deg, #00ffd5, #008cff);
     display: flex; justify-content: center; align-items: center;
-    color: black; font-size: 24px;
+    color: black; font-size: 20px;
 }
-.logo-text h1 { font-size: 23px; font-weight: 700; letter-spacing: -0.3px; }
-.logo-text p { color: #aaa; font-size: 11px; margin-top: 2px; }
-.top-right { display: flex; gap: 14px; align-items: center; }
+.logo-text h1 { font-size: 18px; font-weight: 700; }
+.logo-text p { color: #aaa; font-size: 9px; margin-top: 2px; }
+.top-right { display: flex; gap: 8px; align-items: center; }
 .user-info {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 8px;
     background: #1a1a1a;
-    padding: 6px 16px 6px 12px;
+    padding: 4px 12px 4px 8px;
     border-radius: 40px;
 }
 .user-avatar {
-    width: 36px;
-    height: 36px;
+    width: 32px;
+    height: 32px;
     border-radius: 50%;
     object-fit: cover;
 }
 .user-name {
-    font-size: 13px;
+    font-size: 12px;
     font-weight: 500;
     color: #ddd;
+    max-width: 100px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 .search-box {
     position: relative;
+    display: none; /* Hidden on mobile, shows in expanded view */
+}
+.search-box.mobile-visible {
+    display: block;
+    position: absolute;
+    top: 70px;
+    left: 0;
+    right: 0;
+    padding: 12px 16px;
+    background: #0c0c0c;
+    z-index: 999;
 }
 .search-box input {
-    width: 260px;
-    height: 48px;
-    border-radius: 40px;
-    background: #181818;
+    width: 100%;
+    height: 44px;
+    border-radius: 30px;
+    background: #1a1a1a;
     border: 1px solid #2c2c2c;
     outline: none;
-    padding: 0 20px 0 48px;
+    padding: 0 20px 0 45px;
     color: white;
     font-size: 14px;
-    transition: 0.2s;
 }
-.search-box input:focus { border-color: #00ffd5; background: #202020; }
 .search-box i {
-    position: absolute; left: 18px; top: 50%;
+    position: absolute; left: 28px; top: 50%;
     transform: translateY(-50%);
     color: #aaa;
     font-size: 16px;
 }
 .icon-btn {
-    width: 48px; height: 48px;
+    width: 44px; height: 44px;
     border-radius: 50%;
     background: #1a1a1a;
     border: none;
     color: white;
-    font-size: 20px;
+    font-size: 18px;
     cursor: pointer;
     transition: 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
-.icon-btn:hover { background: #00ffd5; color: black; transform: scale(1.05);}
+.icon-btn:active { background: #00ffd5; color: black; transform: scale(0.95); }
 
-/* ========= SELECTION BAR - ICON ONLY BUTTONS ========= */
+/* Mobile search toggle button */
+.search-toggle {
+    background: #1a1a1a;
+}
+
+/* ========= SELECTION BAR ========= */
 .selection-bar {
     position: fixed;
-    top: 78px;
+    top: 70px;
     left: 0;
     width: 100%;
-    background: #0c0c0c;
-    border-bottom: 2px solid #00ffd5;
-    backdrop-filter: blur(12px);
-    height: 70px;
+    background: rgba(12, 12, 12, 0.98);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid #00ffd5;
+    height: 60px;
     display: flex !important;
     align-items: center;
     justify-content: space-between;
-    padding: 0 28px;
+    padding: 0 16px;
     z-index: 998;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.5);
 }
-.selection-actions { display: flex; gap: 12px; flex-wrap: wrap; }
+.selection-actions { display: flex; gap: 8px; flex-wrap: nowrap; }
 .action-btn {
-    width: 50px;
-    height: 50px;
+    width: 44px;
+    height: 44px;
     border-radius: 50%;
     border: none;
     font-weight: 700;
     cursor: pointer;
-    transition: 0.2s;
-    font-size: 20px;
+    transition: 0.15s;
+    font-size: 18px;
     display: inline-flex;
     align-items: center;
     justify-content: center;
 }
-.action-btn span { display: none; }
-.delete-btn { 
-    background: #dc2626; 
-    color: white; 
-    box-shadow: 0 2px 8px rgba(220,38,38,0.3);
-}
-.delete-btn:hover { background: #b91c1c; transform: scale(1.05); }
+.action-btn:active { transform: scale(0.92); }
+.delete-btn { background: #dc2626; color: white; }
 .download-btn { background: #2c7da0; color: white; }
 .download-zip-btn { background: #6c5ce7; color: white; }
 .select-all-btn { background: #3b82f6; color: white; }
 .clear-all-btn { background: #555; color: white; }
-.action-btn:hover { transform: translateY(-2px) scale(1.05); filter: brightness(1.05);}
-#selectedCount { font-weight: 800; color: #00ffd5; font-size: 26px; margin-right: 6px; }
+#selectedCount { font-weight: 800; color: #00ffd5; font-size: 22px; margin-right: 4px; }
 
-/* ========= GALLERY MASONRY ========= */
+/* ========= GALLERY - Mobile Optimized Masonry ========= */
 .gallery {
-    column-count: 4;
-    column-gap: 20px;
-    padding: 170px 28px 40px;
+    column-count: 2;
+    column-gap: 12px;
+    padding: 145px 12px 80px;
 }
 .gallery-item {
     position: relative;
     break-inside: avoid;
-    margin-bottom: 20px;
-    border-radius: 28px;
+    margin-bottom: 12px;
+    border-radius: 20px;
     overflow: hidden;
     cursor: pointer;
     background: #121212;
-    transition: 0.2s;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+    transition: 0.15s;
 }
 .gallery-item img {
     width: 100%;
     display: block;
-    border-radius: 28px;
-    transition: 0.25s ease;
+    border-radius: 20px;
+    transition: 0.15s ease;
 }
-.gallery-item:hover img { transform: scale(1.02); filter: brightness(0.75);}
+.gallery-item:active img { transform: scale(0.98); }
 .gallery-item.selected img {
-    outline: 4px solid #00ffd5;
-    outline-offset: -2px;
-    border-radius: 28px;
+    outline: 3px solid #00ffd5;
+    outline-offset: -1px;
+    border-radius: 20px;
 }
 .checkmark {
     position: absolute;
-    top: 16px;
-    right: 16px;
-    width: 34px;
-    height: 34px;
+    top: 12px;
+    right: 12px;
+    width: 28px;
+    height: 28px;
     background: rgba(0,0,0,0.7);
     backdrop-filter: blur(4px);
     border-radius: 50%;
@@ -282,9 +307,9 @@ header {
     align-items: center;
     justify-content: center;
     color: white;
-    font-size: 18px;
+    font-size: 14px;
     opacity: 0;
-    transition: 0.2s;
+    transition: 0.15s;
     pointer-events: none;
 }
 .gallery-item.selected .checkmark {
@@ -297,11 +322,11 @@ header {
     bottom: 0;
     left: 0;
     width: 100%;
-    padding: 24px 14px 14px;
+    padding: 20px 10px 10px;
     background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
     opacity: 0;
-    transition: 0.25s;
-    font-size: 12px;
+    transition: 0.2s;
+    font-size: 11px;
     font-weight: 500;
     pointer-events: none;
 }
@@ -310,67 +335,105 @@ header {
 .empty {
     width: 100%;
     text-align: center;
-    padding: 90px 20px;
+    padding: 80px 20px;
     color: #6c6c6c;
     background: #0b0b0b;
-    border-radius: 48px;
-    font-size: 18px;
+    border-radius: 32px;
+    font-size: 16px;
 }
 .lightbox {
     position: fixed;
     inset: 0;
-    background: rgba(0,0,0,0.96);
+    background: rgba(0,0,0,0.98);
     display: none;
     justify-content: center;
     align-items: center;
     z-index: 6000;
 }
-.lightbox img { max-width: 90%; max-height: 88%; border-radius: 32px; box-shadow: 0 25px 40px black; }
+.lightbox img { max-width: 92%; max-height: 80%; border-radius: 24px; object-fit: contain; }
 .close-btn {
-    position: absolute; top: 30px; right: 35px;
-    font-size: 48px; cursor: pointer; color: white; transition: 0.2s;
+    position: absolute; top: 50px; right: 20px;
+    font-size: 40px; cursor: pointer; color: white; width: 50px; height: 50px;
+    display: flex; align-items: center; justify-content: center;
+    background: rgba(0,0,0,0.5); border-radius: 50%;
 }
-.close-btn:hover { color: #00ffd5; }
 .loader {
     position: fixed;
     inset: 0;
-    background: rgba(0,0,0,0.94);
+    background: rgba(0,0,0,0.95);
     display: none;
     justify-content: center;
     align-items: center;
     z-index: 10001;
 }
 .upload-box {
-    width: 360px;
+    width: 300px;
     background: #141414;
-    padding: 36px;
-    border-radius: 40px;
+    padding: 28px;
+    border-radius: 32px;
     text-align: center;
-    border: 1px solid #2c2c2c;
 }
 .progress-bar {
-    width: 100%; height: 12px; background: #2c2c2c; border-radius: 20px; overflow: hidden; margin: 20px 0;
+    width: 100%; height: 8px; background: #2c2c2c; border-radius: 20px; overflow: hidden; margin: 16px 0;
 }
 .progress-fill {
     width: 0%; height: 100%; background: linear-gradient(90deg, #00ffd5, #0099ff);
 }
-.progress-text { font-weight: bold; color: #00ffd5; font-size: 18px; margin-top: 8px; }
+.progress-text { font-weight: bold; color: #00ffd5; font-size: 16px; }
 
-@media (max-width:1100px) { .gallery { column-count: 3; } }
-@media (max-width:750px) { .gallery { column-count: 2; } .search-box { display: none; } .user-info { display: none; } }
-@media (max-width:550px) { 
-    .gallery { column-count: 1; } 
-    .selection-bar { padding: 0 16px; } 
-    .action-btn { width: 44px; height: 44px; font-size: 18px; }
+/* Bottom navigation for mobile */
+.bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 65px;
+    background: rgba(12, 12, 12, 0.98);
+    backdrop-filter: blur(20px);
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 8px 20px 12px;
+    z-index: 997;
+    border-top: 0.5px solid rgba(255,255,255,0.08);
+}
+.nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    background: none;
+    border: none;
+    color: #888;
+    font-size: 12px;
+    cursor: pointer;
+    transition: 0.15s;
+    padding: 6px 12px;
+    border-radius: 30px;
+}
+.nav-item i { font-size: 22px; }
+.nav-item.active { color: #00ffd5; }
+.nav-item:active { background: rgba(255,255,255,0.1); }
+
+@media (min-width: 768px) {
+    .gallery { column-count: 3; padding-top: 155px; }
+    .bottom-nav { display: none; }
+    .search-box { display: block; }
+    .search-toggle { display: none; }
+}
+@media (max-width: 480px) {
+    .gallery { column-count: 2; }
+    .user-name { display: none; }
+    .user-info { padding: 4px 8px; }
 }
 </style>
 </head>
 <body>
 
 <!-- LOADING OVERLAY -->
-<div id="loadingOverlay" style="position:fixed; inset:0; background:rgba(0,0,0,0.9); display:none; justify-content:center; align-items:center; z-index:9999999; flex-direction:column; gap:15px;">
-    <div style="width:50px; height:50px; border:3px solid #333; border-top-color:#00ffd5; border-radius:50%; animation:spin 1s linear infinite;"></div>
-    <p style="color:#00ffd5;">Connecting to Google...</p>
+<div id="loadingOverlay" style="position:fixed; inset:0; background:rgba(0,0,0,0.95); display:none; justify-content:center; align-items:center; z-index:9999999; flex-direction:column; gap:15px;">
+    <div style="width:44px; height:44px; border:3px solid #333; border-top-color:#00ffd5; border-radius:50%; animation:spin 0.8s linear infinite;"></div>
+    <p style="color:#00ffd5; font-size:14px;">Signing in...</p>
 </div>
 <style>
     @keyframes spin {
@@ -382,39 +445,28 @@ header {
 <div class="auth-screen" id="loginScreen">
     <div class="auth-box">
         <div class="auth-logo"><i class="fa-brands fa-google"></i></div>
-        <h1>KCST Gallery</h1><p>Sign in to your gallery</p>
-        
-        <button class="auth-btn google-btn" id="googleSignInLoginBtn">
-            <i class="fa-brands fa-google"></i> Continue with Google
-        </button>
-        
+        <h1>KCST Gallery</h1><p>Your private cloud gallery</p>
+        <button class="auth-btn google-btn" id="googleSignInLoginBtn"><i class="fa-brands fa-google"></i> Google Sign In</button>
         <div class="auth-divider">or</div>
-        
-        <input type="email" id="loginEmail" placeholder="Email address">
+        <input type="email" id="loginEmail" placeholder="Email">
         <input type="password" id="loginPassword" placeholder="Password">
         <button class="auth-btn" id="loginBtn"><i class="fa-solid fa-arrow-right-to-bracket"></i> Login</button>
         <div class="auth-error" id="loginError"></div>
-        <div class="auth-switch">New here? <span id="showRegisterBtn">Create account</span></div>
+        <div class="auth-switch">New? <span id="showRegisterBtn">Create account</span></div>
     </div>
 </div>
 
-<!-- REGISTER SECTION WITH GOOGLE -->
 <div class="auth-screen" id="registerScreen" style="display:none;">
     <div class="auth-box">
         <div class="auth-logo"><i class="fa-brands fa-google"></i></div>
-        <h1>Join KCST</h1><p>Create your private cloud space</p>
-        
-        <button class="auth-btn google-btn" id="googleSignUpRegisterBtn">
-            <i class="fa-brands fa-google"></i> Sign up with Google
-        </button>
-        
+        <h1>Join KCST</h1><p>Create your space</p>
+        <button class="auth-btn google-btn" id="googleSignUpRegisterBtn"><i class="fa-brands fa-google"></i> Sign up with Google</button>
         <div class="auth-divider">or</div>
-        
         <input type="email" id="registerEmail" placeholder="Email">
         <input type="password" id="registerPassword" placeholder="Password">
         <button class="auth-btn" id="registerBtn"><i class="fa-solid fa-user-check"></i> Register</button>
         <div class="auth-error" id="registerError"></div>
-        <div class="auth-switch">Already a member? <span id="showLoginBtn">Sign in</span></div>
+        <div class="auth-switch">Have account? <span id="showLoginBtn">Sign in</span></div>
     </div>
 </div>
 
@@ -422,43 +474,55 @@ header {
 <header>
     <div class="logo">
         <div class="logo-icon"><i class="fa-regular fa-images"></i></div>
-        <div class="logo-text"><h1>KCST Gallery</h1><p id="userEmailDisplay">Private Gallery</p></div>
+        <div class="logo-text"><h1>KCST</h1><p id="userEmailDisplay">Gallery</p></div>
     </div>
     <div class="top-right">
-        <div class="search-box"><input type="text" id="searchInput" placeholder="Search..."><i class="fa-solid fa-search"></i></div>
+        <button class="icon-btn search-toggle" id="searchToggleBtn"><i class="fa-solid fa-search"></i></button>
         <div class="user-info" id="userInfo" style="display: none;">
             <img id="userAvatar" class="user-avatar" alt="avatar">
             <span id="userName" class="user-name"></span>
         </div>
-        <button class="icon-btn" id="uploadTriggerBtn" title="Upload Images"><i class="fa-solid fa-cloud-upload-alt"></i></button>
-        <button class="icon-btn" id="logoutBtn" title="Logout"><i class="fa-solid fa-right-from-bracket"></i></button>
+        <button class="icon-btn" id="uploadTriggerBtn"><i class="fa-solid fa-plus"></i></button>
+        <button class="icon-btn" id="logoutBtn"><i class="fa-solid fa-right-from-bracket"></i></button>
     </div>
 </header>
 
-<!-- SELECTION BAR - ICON ONLY BUTTONS -->
+<!-- Mobile Search Box (hidden by default) -->
+<div class="search-box" id="mobileSearchBox" style="display: none;">
+    <input type="text" id="searchInput" placeholder="Search images...">
+    <i class="fa-solid fa-search"></i>
+</div>
+
+<!-- SELECTION BAR -->
 <div class="selection-bar" id="selectionBar">
-    <div><span id="selectedCount">0</span> <span style="font-size: 14px;">selected</span></div>
+    <div><span id="selectedCount">0</span> <span style="font-size: 13px;">selected</span></div>
     <div class="selection-actions">
         <button class="action-btn select-all-btn" id="selectAllBtn" title="Select All"><i class="fa-regular fa-square-check"></i></button>
-        <button class="action-btn clear-all-btn" id="clearAllBtn" title="Clear Selection"><i class="fa-solid fa-eraser"></i></button>
-        <button class="action-btn download-zip-btn" id="downloadZipBtn" title="Download as ZIP"><i class="fa-solid fa-file-zipper"></i></button>
-        <button class="action-btn download-btn" id="downloadEachBtn" title="Download Each"><i class="fa-solid fa-download"></i></button>
-        <button class="action-btn delete-btn" id="deleteSelectedBtn" title="Delete Selected"><i class="fa-solid fa-trash-can"></i></button>
+        <button class="action-btn clear-all-btn" id="clearAllBtn" title="Clear"><i class="fa-solid fa-eraser"></i></button>
+        <button class="action-btn download-zip-btn" id="downloadZipBtn" title="ZIP"><i class="fa-solid fa-file-zipper"></i></button>
+        <button class="action-btn download-btn" id="downloadEachBtn" title="Download"><i class="fa-solid fa-download"></i></button>
+        <button class="action-btn delete-btn" id="deleteSelectedBtn" title="Delete"><i class="fa-solid fa-trash-can"></i></button>
     </div>
 </div>
 
-<input type="file" id="fileInput" hidden multiple accept="image/*">
-<div class="gallery" id="gallery"><div class="empty" id="emptyBox"><i class="fa-regular fa-face-frown fa-3x" style="margin-bottom: 18px;"></i><h2>No images yet</h2><p>Click + to upload your first image</p></div></div>
+<!-- BOTTOM NAVIGATION (Mobile) -->
+<div class="bottom-nav" id="bottomNav">
+    <button class="nav-item" id="navGalleryBtn"><i class="fa-regular fa-images"></i><span>Gallery</span></button>
+    <button class="nav-item" id="navUploadBtn"><i class="fa-solid fa-plus-circle"></i><span>Upload</span></button>
+    <button class="nav-item" id="navSelectBtn"><i class="fa-regular fa-check-square"></i><span>Select</span></button>
+</div>
 
-<div class="lightbox" id="lightbox"><span class="close-btn" id="closeLightboxBtn">&times;</span><img id="lightboxImg" alt="preview"></div>
-<div class="loader" id="loader"><div class="upload-box"><h2><i class="fa-regular fa-hourglass-half"></i> Uploading</h2><div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div><div class="progress-text" id="progressText">0%</div></div></div>
+<input type="file" id="fileInput" hidden multiple accept="image/*">
+<div class="gallery" id="gallery"><div class="empty" id="emptyBox"><i class="fa-regular fa-face-frown fa-3x" style="margin-bottom: 12px;"></i><h3>No images yet</h3><p>Tap + to upload</p></div></div>
+
+<div class="lightbox" id="lightbox"><span class="close-btn" id="closeLightboxBtn">×</span><img id="lightboxImg" alt="preview"></div>
+<div class="loader" id="loader"><div class="upload-box"><h3><i class="fa-regular fa-hourglass-half"></i> Uploading</h3><div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div><div class="progress-text" id="progressText">0%</div></div></div>
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 import { getDatabase, ref, push, onValue, remove } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
 import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, GoogleAuthProvider, signInWithPopup, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
-// Firebase Configuration
 const firebaseConfig = {
   apiKey: "AIzaSyDUuMUptpyEuYL8asBbA255ZKaz0_YpCoY",
   authDomain: "kcst-gallery.firebaseapp.com",
@@ -469,16 +533,11 @@ const firebaseConfig = {
   appId: "1:150131028441:web:438f0c28e31f48c2d1a9c8"
 };
 
-// Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const database = getDatabase(app);
 const auth = getAuth(app);
 const googleProvider = new GoogleAuthProvider();
-
-// Configure Google Provider
-googleProvider.setCustomParameters({
-    prompt: 'select_account'
-});
+googleProvider.setCustomParameters({ prompt: 'select_account' });
 
 // DOM elements
 const galleryDiv = document.getElementById("gallery");
@@ -494,13 +553,25 @@ const userInfo = document.getElementById("userInfo");
 const userAvatar = document.getElementById("userAvatar");
 const userName = document.getElementById("userName");
 const loadingOverlay = document.getElementById("loadingOverlay");
+const mobileSearchBox = document.getElementById("mobileSearchBox");
+const searchToggleBtn = document.getElementById("searchToggleBtn");
 
-// FORCE selection bar to always be visible
 selectionBar.style.display = "flex";
 
 let selectedKeysSet = new Set();
 let mediaItems = new Map();
 let currentUserId = null;
+
+// Mobile search toggle
+searchToggleBtn.addEventListener("click", () => {
+    if (mobileSearchBox.style.display === "none" || mobileSearchBox.style.display === "") {
+        mobileSearchBox.style.display = "block";
+        mobileSearchBox.classList.add("mobile-visible");
+    } else {
+        mobileSearchBox.style.display = "none";
+        mobileSearchBox.classList.remove("mobile-visible");
+    }
+});
 
 function updateSelectionUI() {
     const count = selectedKeysSet.size;
@@ -511,25 +582,15 @@ function updateSelectionUI() {
     }
 }
 
-function clearSelection() {
-    selectedKeysSet.clear();
-    updateSelectionUI();
-}
-
+function clearSelection() { selectedKeysSet.clear(); updateSelectionUI(); }
 function toggleSelect(key) {
-    if (selectedKeysSet.has(key)) {
-        selectedKeysSet.delete(key);
-    } else {
-        selectedKeysSet.add(key);
-    }
+    if (selectedKeysSet.has(key)) selectedKeysSet.delete(key);
+    else selectedKeysSet.add(key);
     updateSelectionUI();
 }
-
 function selectAllVisible() {
     for (let [key, obj] of mediaItems.entries()) {
-        if (obj.element.style.display !== "none") {
-            selectedKeysSet.add(key);
-        }
+        if (obj.element.style.display !== "none") selectedKeysSet.add(key);
     }
     updateSelectionUI();
 }
@@ -539,101 +600,65 @@ function createGalleryCard(key, itemData) {
     card.className = "gallery-item";
     card.dataset.key = key;
     card.dataset.url = itemData.url;
-    
     const img = document.createElement("img");
     img.src = itemData.url;
-    img.alt = itemData.name || "KCST image";
+    img.alt = itemData.name || "Image";
     img.loading = "lazy";
-    
-    img.onclick = (e) => {
-        e.stopPropagation();
-        toggleSelect(key);
-    };
-    
-    img.ondblclick = (e) => {
-        e.stopPropagation();
-        openLightbox(itemData.url);
-    };
-    
+    img.onclick = (e) => { e.stopPropagation(); toggleSelect(key); };
+    img.ondblclick = (e) => { e.stopPropagation(); openLightbox(itemData.url); };
     const checkDiv = document.createElement("div");
     checkDiv.className = "checkmark";
     checkDiv.innerHTML = '<i class="fa-solid fa-check"></i>';
     const overlayDiv = document.createElement("div");
     overlayDiv.className = "overlay";
     overlayDiv.innerHTML = `<div><i class="fa-regular fa-file-image"></i> ${itemData.name || "image"}</div>`;
-    
     card.appendChild(img);
     card.appendChild(checkDiv);
     card.appendChild(overlayDiv);
     galleryDiv.appendChild(card);
-    
     mediaItems.set(key, { element: card, url: itemData.url, name: itemData.name });
     return card;
 }
 
-function getUserGalleryRef() {
-    if (!currentUserId) return null;
-    return ref(database, `users/${currentUserId}/gallery`);
-}
+function getUserGalleryRef() { return currentUserId ? ref(database, `users/${currentUserId}/gallery`) : null; }
 
 function loadGallery() {
     const galleryRef = getUserGalleryRef();
-    if (!galleryRef) {
-        galleryDiv.innerHTML = "";
-        galleryDiv.appendChild(emptyBoxDiv);
-        return;
-    }
-    
+    if (!galleryRef) { galleryDiv.innerHTML = ""; galleryDiv.appendChild(emptyBoxDiv); return; }
     onValue(galleryRef, (snapshot) => {
         galleryDiv.innerHTML = "";
         mediaItems.clear();
         selectedKeysSet.clear();
         updateSelectionUI();
-        
-        if (!snapshot.exists()) {
-            galleryDiv.appendChild(emptyBoxDiv);
-            return;
-        }
-        
+        if (!snapshot.exists()) { galleryDiv.appendChild(emptyBoxDiv); return; }
         const data = snapshot.val();
         const entries = Object.entries(data).reverse();
         let hasImages = false;
-        
         for (const [key, item] of entries) {
             const imgUrl = item.url || item.display_url;
             if (!imgUrl) continue;
             hasImages = true;
-            createGalleryCard(key, {
-                name: item.name || "untitled",
-                url: imgUrl
-            });
+            createGalleryCard(key, { name: item.name || "untitled", url: imgUrl });
         }
-        
         if (!hasImages) galleryDiv.appendChild(emptyBoxDiv);
     });
 }
 
-// DELETE - NO CONFIRMATION
 async function deleteSelected() {
     if (selectedKeysSet.size === 0) return;
-    
     const delBtn = document.getElementById("deleteSelectedBtn");
     const originalIcon = delBtn.innerHTML;
     delBtn.innerHTML = '<i class="fa-solid fa-spinner fa-pulse"></i>';
     delBtn.disabled = true;
-    
     try {
-        const deletePromises = [];
+        const promises = [];
         for (const key of selectedKeysSet) {
-            const imageRef = ref(database, `users/${currentUserId}/gallery/${key}`);
-            deletePromises.push(remove(imageRef));
+            promises.push(remove(ref(database, `users/${currentUserId}/gallery/${key}`)));
         }
-        await Promise.all(deletePromises);
+        await Promise.all(promises);
         selectedKeysSet.clear();
         updateSelectionUI();
-    } catch (error) {
-        console.error("Delete error:", error);
-    } finally {
+    } catch(e) { console.error(e); } finally {
         delBtn.innerHTML = originalIcon;
         delBtn.disabled = false;
     }
@@ -647,10 +672,7 @@ function downloadEach() {
             const link = document.createElement("a");
             link.href = item.url;
             link.download = item.name.replace(/\s+/g, '_') || "KCST_image";
-            link.target = "_blank";
-            document.body.appendChild(link);
             link.click();
-            document.body.removeChild(link);
         }
     }
 }
@@ -658,19 +680,11 @@ function downloadEach() {
 async function downloadAsZip() {
     if (selectedKeysSet.size === 0) return;
     const toast = document.createElement("div");
-    toast.style.position = "fixed";
-    toast.style.bottom = "24px";
-    toast.style.left = "24px";
-    toast.style.backgroundColor = "#000000cc";
-    toast.style.backdropFilter = "blur(10px)";
-    toast.style.padding = "12px 24px";
-    toast.style.borderRadius = "60px";
-    toast.style.zIndex = "10000";
-    toast.style.color = "#00ffd5";
-    toast.style.fontWeight = "bold";
-    toast.innerText = "📦 Creating ZIP...";
+    toast.style.position = "fixed"; toast.style.bottom = "70px"; toast.style.left = "16px"; toast.style.right = "16px";
+    toast.style.backgroundColor = "#000000cc"; toast.style.backdropFilter = "blur(10px)"; toast.style.padding = "12px";
+    toast.style.borderRadius = "40px"; toast.style.zIndex = "10000"; toast.style.color = "#00ffd5";
+    toast.style.fontWeight = "bold"; toast.style.textAlign = "center"; toast.innerText = "📦 Creating ZIP...";
     document.body.appendChild(toast);
-    
     const zip = new JSZip();
     let successCount = 0;
     for (let key of selectedKeysSet) {
@@ -680,192 +694,73 @@ async function downloadAsZip() {
                 const response = await fetch(item.url);
                 const blob = await response.blob();
                 let ext = blob.type.split('/')[1] || 'jpg';
-                let filename = `${item.name || "image"}_${key.slice(-6)}.${ext}`;
-                zip.file(filename, blob);
+                zip.file(`${item.name || "image"}_${key.slice(-6)}.${ext}`, blob);
                 successCount++;
-            } catch(e) { console.warn(e); }
+            } catch(e) {}
         }
     }
-    if (successCount === 0) {
-        toast.innerText = "❌ Failed";
-        setTimeout(() => toast.remove(), 1500);
-        return;
-    }
-    toast.innerText = "📀 Generating ZIP...";
+    if (successCount === 0) { toast.innerText = "❌ Failed"; setTimeout(() => toast.remove(), 1500); return; }
     const zipBlob = await zip.generateAsync({ type: "blob" });
-    const downloadLink = document.createElement("a");
-    downloadLink.href = URL.createObjectURL(zipBlob);
-    downloadLink.download = `KCST_gallery_${new Date().toISOString().slice(0,19)}.zip`;
-    document.body.appendChild(downloadLink);
-    downloadLink.click();
-    document.body.removeChild(downloadLink);
-    URL.revokeObjectURL(downloadLink.href);
+    const link = document.createElement("a");
+    link.href = URL.createObjectURL(zipBlob);
+    link.download = `KCST_gallery.zip`;
+    link.click();
+    URL.revokeObjectURL(link.href);
     toast.innerText = "✅ ZIP ready!";
-    setTimeout(() => toast.remove(), 1200);
+    setTimeout(() => toast.remove(), 1500);
 }
 
 fileInput.addEventListener("change", async function(e) {
     const files = Array.from(this.files);
-    if (files.length === 0) return;
-    if (!currentUserId) {
-        alert("Please login first");
-        return;
-    }
-    
+    if (!files.length || !currentUserId) return;
     loaderDiv.style.display = "flex";
     let completed = 0;
-    const total = files.length;
-    
     for (let i = 0; i < files.length; i++) {
         const file = files[i];
         try {
-            const percent = Math.floor((i / total) * 100);
+            const percent = Math.floor((i / files.length) * 100);
             progressFill.style.width = percent + "%";
             progressText.innerText = percent + "%";
-            
             const formData = new FormData();
             formData.append("image", file);
-            const response = await fetch("https://api.imgbb.com/1/upload?key=32a7a8ae20c5f60ec2456e2bbc9f0f39", {
-                method: "POST",
-                body: formData
-            });
+            const response = await fetch("https://api.imgbb.com/1/upload?key=32a7a8ae20c5f60ec2456e2bbc9f0f39", { method: "POST", body: formData });
             const data = await response.json();
-            if (!data.success) throw new Error("Upload failed");
-            const imageUrl = data.data.display_url;
-            
-            const userGalleryRef = ref(database, `users/${currentUserId}/gallery`);
-            await push(userGalleryRef, {
-                name: file.name,
-                url: imageUrl,
-                size: file.size,
-                created: Date.now()
-            });
-            
+            if (!data.success) throw new Error();
+            await push(ref(database, `users/${currentUserId}/gallery`), { name: file.name, url: data.data.display_url, size: file.size, created: Date.now() });
             completed++;
-            const newPercent = Math.floor((completed / total) * 100);
-            progressFill.style.width = newPercent + "%";
-            progressText.innerText = newPercent + "%";
-        } catch(err) {
-            console.error(err);
-            alert(`Upload error for ${file.name}`);
-        }
+            progressFill.style.width = Math.floor((completed / files.length) * 100) + "%";
+            progressText.innerText = Math.floor((completed / files.length) * 100) + "%";
+        } catch(err) { alert(`Upload error: ${file.name}`); }
     }
-    setTimeout(() => {
-        loaderDiv.style.display = "none";
-        progressFill.style.width = "0%";
-        progressText.innerText = "0%";
-    }, 600);
+    setTimeout(() => { loaderDiv.style.display = "none"; progressFill.style.width = "0%"; progressText.innerText = "0%"; }, 500);
     fileInput.value = "";
 });
 
-function openLightbox(src) {
-    const lb = document.getElementById("lightbox");
-    const lbImg = document.getElementById("lightboxImg");
-    lb.style.display = "flex";
-    lbImg.src = src;
-}
-
-document.getElementById("closeLightboxBtn").onclick = () => {
-    document.getElementById("lightbox").style.display = "none";
-};
-
+function openLightbox(src) { document.getElementById("lightbox").style.display = "flex"; document.getElementById("lightboxImg").src = src; }
+document.getElementById("closeLightboxBtn").onclick = () => document.getElementById("lightbox").style.display = "none";
 document.getElementById("searchInput").addEventListener("input", function() {
     const term = this.value.toLowerCase();
     for (let [key, obj] of mediaItems.entries()) {
-        const name = (obj.name || "").toLowerCase();
-        if (name.includes(term)) {
-            obj.element.style.display = "block";
-        } else {
-            obj.element.style.display = "none";
-        }
+        obj.element.style.display = (obj.name || "").toLowerCase().includes(term) ? "block" : "none";
     }
 });
 
-// GOOGLE SIGN-IN FIXED
+// Auth functions
 async function googleSignIn() {
     loadingOverlay.style.display = "flex";
-    try {
-        const result = await signInWithPopup(auth, googleProvider);
-        console.log("Google sign-in success:", result.user);
-        // Auth state listener will handle the UI update
-    } catch(error) {
-        console.error("Google sign-in error:", error);
-        let errorMsg = error.message;
-        if (error.code === 'auth/popup-blocked') {
-            errorMsg = "Popup was blocked. Please allow popups for this site.";
-        } else if (error.code === 'auth/popup-closed-by-user') {
-            errorMsg = "Sign-in cancelled. Please try again.";
-        }
-        document.getElementById("loginError").innerHTML = errorMsg;
-    } finally {
-        loadingOverlay.style.display = "none";
-    }
+    try { await signInWithPopup(auth, googleProvider); } catch(e) { document.getElementById("loginError").innerHTML = e.message; } finally { loadingOverlay.style.display = "none"; }
 }
-
 async function googleSignUp() {
     loadingOverlay.style.display = "flex";
-    try {
-        const result = await signInWithPopup(auth, googleProvider);
-        console.log("Google sign-up success:", result.user);
-    } catch(error) {
-        console.error("Google sign-up error:", error);
-        let errorMsg = error.message;
-        if (error.code === 'auth/popup-blocked') {
-            errorMsg = "Popup was blocked. Please allow popups for this site.";
-        }
-        document.getElementById("registerError").innerHTML = errorMsg;
-    } finally {
-        loadingOverlay.style.display = "none";
-    }
+    try { await signInWithPopup(auth, googleProvider); } catch(e) { document.getElementById("registerError").innerHTML = e.message; } finally { loadingOverlay.style.display = "none"; }
 }
+async function loginUser() { try { await signInWithEmailAndPassword(auth, document.getElementById("loginEmail").value, document.getElementById("loginPassword").value); } catch(e) { document.getElementById("loginError").innerHTML = e.message; } }
+async function registerUser() { try { await createUserWithEmailAndPassword(auth, document.getElementById("registerEmail").value, document.getElementById("registerPassword").value); alert("Account created! Please login."); showLogin(); } catch(e) { document.getElementById("registerError").innerHTML = e.message; } }
+function showRegister() { document.getElementById("loginScreen").style.display = "none"; document.getElementById("registerScreen").style.display = "flex"; }
+function showLogin() { document.getElementById("registerScreen").style.display = "none"; document.getElementById("loginScreen").style.display = "flex"; }
+async function logoutUser() { await signOut(auth); clearSelection(); }
 
-async function loginUser() {
-    const email = document.getElementById("loginEmail").value;
-    const password = document.getElementById("loginPassword").value;
-    const errorDiv = document.getElementById("loginError");
-    try {
-        await signInWithEmailAndPassword(auth, email, password);
-        errorDiv.innerHTML = "";
-    } catch(error) {
-        errorDiv.innerHTML = error.message;
-    }
-}
-
-async function registerUser() {
-    const email = document.getElementById("registerEmail").value;
-    const password = document.getElementById("registerPassword").value;
-    const errorDiv = document.getElementById("registerError");
-    try {
-        await createUserWithEmailAndPassword(auth, email, password);
-        alert("✅ Account created! Please log in.");
-        showLogin();
-    } catch(error) {
-        errorDiv.innerHTML = error.message;
-    }
-}
-
-function showRegister() {
-    document.getElementById("loginScreen").style.display = "none";
-    document.getElementById("registerScreen").style.display = "flex";
-}
-
-function showLogin() {
-    document.getElementById("registerScreen").style.display = "none";
-    document.getElementById("loginScreen").style.display = "flex";
-}
-
-async function logoutUser() {
-    await signOut(auth);
-    clearSelection();
-    currentUserId = null;
-    userEmailDisplay.textContent = "Private Gallery";
-    userInfo.style.display = "none";
-    galleryDiv.innerHTML = "";
-    galleryDiv.appendChild(emptyBoxDiv);
-    mediaItems.clear();
-}
-
-// Attach event listeners
+// Event listeners
 document.getElementById("googleSignInLoginBtn").onclick = googleSignIn;
 document.getElementById("googleSignUpRegisterBtn").onclick = googleSignUp;
 document.getElementById("loginBtn").onclick = loginUser;
@@ -873,77 +768,41 @@ document.getElementById("registerBtn").onclick = registerUser;
 document.getElementById("showRegisterBtn").onclick = showRegister;
 document.getElementById("showLoginBtn").onclick = showLogin;
 document.getElementById("logoutBtn").onclick = logoutUser;
-document.getElementById("selectAllBtn").onclick = () => selectAllVisible();
-document.getElementById("clearAllBtn").onclick = () => clearSelection();
-document.getElementById("downloadZipBtn").onclick = () => downloadAsZip();
-document.getElementById("downloadEachBtn").onclick = () => downloadEach();
-document.getElementById("deleteSelectedBtn").onclick = () => deleteSelected();
+document.getElementById("selectAllBtn").onclick = selectAllVisible;
+document.getElementById("clearAllBtn").onclick = clearSelection;
+document.getElementById("downloadZipBtn").onclick = downloadAsZip;
+document.getElementById("downloadEachBtn").onclick = downloadEach;
+document.getElementById("deleteSelectedBtn").onclick = deleteSelected;
 document.getElementById("uploadTriggerBtn").onclick = () => fileInput.click();
+document.getElementById("navUploadBtn").onclick = () => fileInput.click();
+document.getElementById("navSelectBtn").onclick = () => { if (mediaItems.size) selectAllVisible(); };
+document.getElementById("navGalleryBtn").onclick = () => { document.getElementById("searchInput").value = ""; document.getElementById("searchInput").dispatchEvent(new Event('input')); };
 
-// Auth state listener - This handles showing/hiding UI after login
+// Auth state
 onAuthStateChanged(auth, (user) => {
     if (user) {
         currentUserId = user.uid;
         const displayName = user.displayName || user.email.split('@')[0];
-        const photoURL = user.photoURL || "";
-        
-        userEmailDisplay.textContent = `${displayName}'s Gallery`;
+        userEmailDisplay.textContent = displayName.length > 12 ? displayName.slice(0,10)+".." : displayName;
         userInfo.style.display = "flex";
-        if (photoURL) userAvatar.src = photoURL;
+        if (user.photoURL) userAvatar.src = user.photoURL;
         userName.textContent = displayName;
-        
         document.getElementById("loginScreen").style.display = "none";
         document.getElementById("registerScreen").style.display = "none";
         loadGallery();
-        console.log(`✅ Logged in: ${user.email}`);
     } else {
         currentUserId = null;
-        userEmailDisplay.textContent = "Private Gallery";
         userInfo.style.display = "none";
         document.getElementById("loginScreen").style.display = "flex";
-        document.getElementById("registerScreen").style.display = "none";
-        galleryDiv.innerHTML = "";
-        galleryDiv.appendChild(emptyBoxDiv);
-        mediaItems.clear();
-        selectedKeysSet.clear();
-        updateSelectionUI();
+        galleryDiv.innerHTML = ""; galleryDiv.appendChild(emptyBoxDiv);
+        mediaItems.clear(); selectedKeysSet.clear(); updateSelectionUI();
     }
 });
 
-// Keyboard shortcuts
-document.addEventListener("keydown", (e) => {
-    if (e.ctrlKey && e.key === 'a') {
-        e.preventDefault();
-        if (mediaItems.size) selectAllVisible();
-    }
-    if (e.key === 'Delete' && selectedKeysSet.size > 0) {
-        e.preventDefault();
-        deleteSelected();
-    }
-    if (e.ctrlKey && e.key === 'd') {
-        e.preventDefault();
-        if (selectedKeysSet.size) downloadEach();
-    }
-    if (e.ctrlKey && e.key === 'z') {
-        e.preventDefault();
-        if (selectedKeysSet.size) downloadAsZip();
-    }
-    if (e.key === 'Escape') {
-        clearSelection();
-    }
-});
-
-// Keep selection bar always visible
-const keepVisible = setInterval(() => {
-    if (selectionBar.style.display !== 'flex') {
-        selectionBar.style.display = 'flex';
-    }
-}, 500);
-
-window.addEventListener('beforeunload', () => clearInterval(keepVisible));
-
-console.log("✅ KCST Gallery — Google Sign-In FIXED!");
-console.log("📌 If popup is blocked, allow popups for this site");
+// Keep selection visible
+setInterval(() => { if (selectionBar.style.display !== 'flex') selectionBar.style.display = 'flex'; }, 500);
+document.addEventListener("keydown", (e) => { if (e.key === 'Delete' && selectedKeysSet.size) deleteSelected(); if (e.key === 'Escape') clearSelection(); });
+console.log("✅ KCST Gallery — Mobile app optimized");
 </script>
 </body>
 </html>
